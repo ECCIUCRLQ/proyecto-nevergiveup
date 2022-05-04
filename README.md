@@ -29,9 +29,9 @@ Lizeth Corrales Cortés lizeth.corrales@ucr.ac.cr
 
 David Obando Cortés 
 
-Sebastián Rodríguez Tencio
+Sebastián Rodríguez Tencio sebastian.rodrigueztencio@ucr.ac.cr
 
 
 ### License
 
-Copyrigth 2022. James Araya Rodríguez james.araya@ucr.ac.cr, Lizeth Corrales Cortés lizeth.corrales@ucr.ac.cr, David Obando Cortés , Sebastián Rodríguez Tencio, Universidad de Costa Rica. CC BY 4.0
+Copyrigth 2022. James Araya Rodríguez james.araya@ucr.ac.cr, Lizeth Corrales Cortés lizeth.corrales@ucr.ac.cr, David Obando Cortés , Sebastián Rodríguez Tencio sebastian.rodrigueztencio@ucr.ac.cr, Universidad de Costa Rica. CC BY 4.0
