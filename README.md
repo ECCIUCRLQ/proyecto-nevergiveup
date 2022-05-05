@@ -66,7 +66,7 @@ Como menciona (Chai y Irei, sf) para enviar y recibir información con éxito, l
 
 - [Chai, Wesley y Irei, Alissa. TechTarget. (sf). Network Protocol](https://searchnetworking.techtarget.com/definition/protocol)
 
-- [Mac, E (2019) ¿Cuál es el significado de BMP?. Technolandia] (https://techlandia.com/significado-bmp-hechos_103910/)
+- [Mac, E (2019) ¿Cuál es el significado de BMP?. Technolandia](https://techlandia.com/significado-bmp-hechos_103910/)
 
 - [Tabla: Estándar de una imagen en formato BMP](https://www.youtube.com/watch?v=eRtL6TsLKfU)
 
