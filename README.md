@@ -12,6 +12,34 @@ El dispositivo se conectará vía PCI-Express, en donde se simulará, por medio 
 3. Verde
 4. Azul
 
+## Archivos BMP
+
+Según Estefanía Mac (2019) es conocido como archivo de mapa de bits, también llamado como archivo de imagen Bitmap, el cual es un formato de imagen que está compuesto por pixeles dispuesto en forma de matriz que constituyen diferentes profundidades de color determinadas por los encabezados de archivo, cada pixel puede tener un tamaño de 1, 4, 8, 15, 24, 32 o 64 bits, entre ellas la más común es de 24 bits por pixel.
+
+Este formato produce imágenes detallas en alta calidad, imagen bidimensional y buenos perfiles de color. No obstante, no se comprimen de forma óptima y suelen ser de gran tamaño, por lo que no es recomendable su uso en páginas web, ya que no son los más adecuados para trasferencia de datos vía web.
+
+### Estándar de una imagen en formato BMP
+Los datos son almacenados en little-endian
+
+| Bytes | Información encabezado |
+| ------------- | ------------- |
+| 0, 1  | Tipo de fichero "BM"  |
+| 2, 3, 4, 5  | Tamaño del archivo  |
+| 6,7 | Reservado |
+| 8,9 | Reservado |
+| 10, 11, 12, 13 | Inicio de los datos de la imagen |
+| 14, 15, 16, 17 | Tamaño de la cabecera del bitmap |
+| 18, 19, 20, 21 | Anchura (píxels) |
+| 22, 23, 24, 25 | Altura (píxels) |
+| 26, 27 | Número de planos |
+| 28, 29 | Tamaño de cada punto |
+| 30, 31, 32, 33 | Compresión (0=no comprimido) |
+| 34, 35, 36, 37 | Tamaño de la imagen |
+| 38, 39, 40, 41 | Resolución horizontal |
+| 42, 43, 44, 45 | Resolución vertical |
+| 46, 47, 48, 49 | Tamaño de la tabla de color |
+| 50, 51, 52, 53 | Contador de colores importantes |
+
 ## Protocolo
 
 Los protocolos son muy utilizados por las personas. En informática al igual que en muchas otras ámbitos un protocolo se puede definir como un conjunto formal de estándares y normas. Según (Imagar, 2021) estos pueden llegar a regir tanto el formato como el control de la interacción entre los distintos dispositivos dentro de una red o sistema de comunicación entre otras. Los protocolos tienen varias funciones algunas de las mencionados por (Imagar, 2021) son: permiten la interoperabilidad, sirve además para regular el control de flujo, sirve para administrar la velocidad de transmisión de los datos entre dos dispositivos, administrar congestiones y también administra la verificación de errores, entre otras funciones.
@@ -38,6 +66,10 @@ Como menciona (Chai y Irei, sf) para enviar y recibir información con éxito, l
 
 - [Chai, Wesley y Irei, Alissa. TechTarget. (sf). Network Protocol](https://searchnetworking.techtarget.com/definition/protocol)
 
+- [Mac, E (2019) ¿Cuál es el significado de BMP?. Technolandia] (https://techlandia.com/significado-bmp-hechos_103910/)
+
+- [Tabla: Estándar de una imagen en formato BMP](https://www.youtube.com/watch?v=eRtL6TsLKfU)
+
 
 ## Programadores:
 
@@ -45,10 +77,10 @@ James Araya Rodríguez james.araya@ucr.ac.cr
 
 Lizeth Corrales Cortés lizeth.corrales@ucr.ac.cr
 
-David Obando Cortés 
+David Obando Cortés dailyn.obando@ucr.ac.cr
 
 Sebastián Rodríguez Tencio sebastian.rodrigueztencio@ucr.ac.cr
 
 ## License
 
-Copyrigth 2022. James Araya Rodríguez james.araya@ucr.ac.cr, Lizeth Corrales Cortés lizeth.corrales@ucr.ac.cr, David Obando Cortés , Sebastián Rodríguez Tencio sebastian.rodrigueztencio@ucr.ac.cr, Universidad de Costa Rica. CC BY 4.0
+Copyrigth 2022. James Araya Rodríguez james.araya@ucr.ac.cr, Lizeth Corrales Cortés lizeth.corrales@ucr.ac.cr, David Obando Cortés dailyn.obando@ucr.ac.cr, Sebastián Rodríguez Tencio sebastian.rodrigueztencio@ucr.ac.cr, Universidad de Costa Rica. CC BY 4.0
