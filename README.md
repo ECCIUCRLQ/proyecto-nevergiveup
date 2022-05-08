@@ -58,6 +58,15 @@ Como menciona (Chai y Irei, sf) para enviar y recibir información con éxito, l
 - Conocer qué es un protocolo y cómo implementarlo
 - Conocer las instrucciones de x86-64 y AVX2
 
+## Lista de Tareas
+| Tarea | Encargado | Duración |
+| ------------- | ------------- | ------------- |
+| Especificación del dispositivo | Todos los miembros  | 1 semana |
+| Implementar Driver | James Araya | 3 semanas |
+| Implementar Programa de Usuario | David Obando | 3 semanas |
+| Implementar Protocolo | Sebastián Rodríguez | 3 semanas |
+| Realizar Pruebas de Validación | Lizeth Corrales | 1 semana |
+
 ## Código y bibliografía de terceros
 
 - [Imagar Solutions Company. (2021). ¿Qué es el protocolo en informática?](https://www.imagar.com/blog-desarrollo-web/que-es-el-protocolo-en-informatica/)
