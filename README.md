@@ -50,6 +50,16 @@ Un claro ejemplo de los protocolos importantes y comunes son los mencionados por
 
 Como menciona (Chai y Irei, sf) para enviar y recibir información con éxito, los dispositivos en ambos lados de un intercambio de comunicación deben aceptar y seguir las convenciones de protocolo. Para nuestro proyecto es importante definir un protocolo que permita la implementación del controlador de manera satisfactoria, esto se llevará acabo mediante una negociación con el resto de equipos.
 
+##  Drivers
+Para este proyecto es necesario conocer las bases de como crear un driver, entender su funcionamiento y las funcionalidades que brinda. Esto con la finalidad de enlazar el programa con simics y de esta manera poder obtener los resultados esperados.
+
+Un controlador o Driver es el software que controla un dispositivo en una PC y algunos otros aparatos tecnológicos. 
+Por ejemplo, una tarjeta de vídeo, de sonido, un mouse, una cámara, impresoras entre muchas otros dispositivos.
+Los controladores actúan como “puentes” entre las aplicaciones y los dispositivos, encargándose de que ambos interactúen. 
+Para que esta interacción sea posible es necesario crear un software que logre acoplar la PC con el dispositivo o programa en ejecución, de esta manera una vez acoplados los programas se podrá realizar la tarea deseada. 
+
+Como primer avance en la creación de dicho software, se creara un ejemplo de driver en clases lo cual servirá como base para el diseño y creación de nuestro propio driver, el cual con los conocimientos adquiridos en clases y con la recopilacione de informacion podra ser diseñado y utilizado en el proyecto. 
+
 ## Diseño del producto final
 ![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Dise%C3%B1o%20de%20Dispositivo.png)
 
