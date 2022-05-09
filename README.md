@@ -1,6 +1,8 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7710818&assignment_repo_type=AssignmentRepo)
 
 # Proyecto PI Ensamblador
+
+El propósito de este proyecto es diseñar un dispositivo periférico a partir de la tecnología Simics, en la cual los estudiantes, partiendo de la búsqueda de información y lo aprendido en el curso, puedan desarrollar un dispositivo virtualizado y los componentes fundamentales para que este pueda ser utilizado por un usuario. En consecuencia, comprender cómo planificar, diseñar y ejecutar de manera adecuada un proyecto asociado con el desarrollo de habilidades blandas, será de suma importancia para la conclusión de este trabajo.
 ## Especificación
 
 El dispositivo se conectará vía PCI-Express, en donde se simulará, por medio de Simics, el hardware para capturar, transformar y filtrar fotos o imágenes y enviar el resultado de la imagen filtrada a un entorno virtual que usa Ubuntu como sistema operativo. La imagen de entrada será un archivo bmp (bitmap image). A la imagen se le podrán aplicar varios filtros. Finalmente, el resultado de aplicar el filtro debe almacenarse en el dispositivo junto con otros datos como fecha de la captura, tamaño en bytes, entre otros. Los datos que se almacenan serán enviados a una computadora que usa Ubuntu y desde ahí se podrá visualizar la imagen. 
@@ -48,6 +50,8 @@ Un claro ejemplo de los protocolos importantes y comunes son los mencionados por
 
 Como menciona (Chai y Irei, sf) para enviar y recibir información con éxito, los dispositivos en ambos lados de un intercambio de comunicación deben aceptar y seguir las convenciones de protocolo. Para nuestro proyecto es importante definir un protocolo que permita la implementación del controlador de manera satisfactoria, esto se llevará acabo mediante una negociación con el resto de equipos.
 
+## Diseño del producto final
+![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Dise%C3%B1o%20de%20Dispositivo.png)
 
 ## Lista de temas, conocimientos o habilidades necesarios para lograr el proyecto
 - Entender qué es un driver y cómo funciona
