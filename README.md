@@ -61,6 +61,14 @@ Para que esta interacción sea posible es necesario crear un software que logre 
 Como primer avance en la creación de dicho software, se creara un ejemplo de driver en clases lo cual servirá como base para el diseño y creación de nuestro propio driver, el cual con los conocimientos adquiridos en clases y con la recopilacione de informacion podra ser diseñado y utilizado en el proyecto. 
 
 ## Diseño del producto final
+
+El diseño del producto final consta de las sigueintes partes:
+1. Un dispositivo virtualizado que modela la simulación del hardware para capturar, transformar y filtrar fotografías o imágenes y enviar el resultado de la imagen filtrada a un entorno virtual que usa Ubuntu como sistema operativo
+2. Un producto de sofware dependiente del sistema operativo, conocido como driver o controlador que permite que cualquier proceso en el sistema operativo tenga acceso al dispositivo
+3. Un programa de usuario que permite verificar el funcionamiento del dispositivo y por consiguiente del driver o controlador
+4. Pruebas de validación que demuestran el cumplimiento de los requisitos mínimos para el funcionamiento del dispositivo
+5. Un protocolo que permite la comunicación entre el dispositivo y el driver o controlador
+
 ![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Dise%C3%B1o%20de%20Dispositivo.png)
 
 ## Lista de temas, conocimientos o habilidades necesarios para lograr el proyecto
