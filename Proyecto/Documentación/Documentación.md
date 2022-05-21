@@ -72,7 +72,7 @@ El diseño del producto final consta de las sigueintes partes:
 4. Pruebas de validación que demuestran el cumplimiento de los requisitos mínimos para el funcionamiento del dispositivo
 5. Un protocolo que permite la comunicación entre el dispositivo y el driver o controlador
 
-![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Dise%C3%B1o%20de%20Dispositivo.png)
+![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Img/Diagrama.png)
 
 ## Lista de temas, conocimientos o habilidades necesarios para lograr el proyecto
 - Entender qué es un driver y cómo funciona
