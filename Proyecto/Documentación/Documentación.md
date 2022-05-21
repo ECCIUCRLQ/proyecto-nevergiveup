@@ -11,6 +11,12 @@ El dispositivo se conectará vía PCI-Express, en donde se simulará, por medio 
 3. Verde
 4. Azul
 
+### Ejemplo de resultados
+
+![Filtros](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Img/filtros.png)
+
+Descripción: La imagen central es la original y a sus extremos están sus respectivos filtros.
+
 ## Archivos BMP
 
 Según Estefanía Mac (2019) es conocido como archivo de mapa de bits, también llamado como archivo de imagen Bitmap, el cual es un formato de imagen que está compuesto por pixeles dispuesto en forma de matriz que constituyen diferentes profundidades de color determinadas por los encabezados de archivo, cada pixel puede tener un tamaño de 1, 4, 8, 15, 24, 32 o 64 bits, entre ellas la más común es de 24 bits por pixel.
