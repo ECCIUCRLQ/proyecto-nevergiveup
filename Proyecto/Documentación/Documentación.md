@@ -2,7 +2,7 @@
 
 ## Especificación
 
-El dispositivo se conectará vía PCI-Express, en donde se simulará, por medio de Simics, el hardware para capturar, transformar y filtrar fotos o imágenes y enviar el resultado de la imagen filtrada a un entorno virtual que usa Ubuntu como sistema operativo. La imagen de entrada será un archivo bmp (bitmap image). A la imagen se le podrán aplicar varios filtros. Finalmente, el resultado de aplicar el filtro debe almacenarse en el dispositivo junto con otros datos como fecha de la captura, tamaño en bytes, entre otros. Los datos que se almacenan serán enviados a una computadora que usa Ubuntu y desde ahí se podrá visualizar la imagen. 
+Este dispositivo se conecta vía PCI-Express, en donde se simula, por medio de Simics, el hardware para capturar, transformar y filtrar fotos o imágenes y enviar el resultado de la imagen filtrada a un entorno virtual que usa Ubuntu como sistema operativo. La imagen de entrada es un archivo bmp (bitmap image). A la imagen se le pueden aplicar varios filtros. Finalmente, el resultado de aplicar el filtro se almacena en el dispositivo junto con otros datos como fecha de la captura, tamaño en bytes, entre otros. Los datos que se almacenan son enviados a una computadora que usa Ubuntu y desde ahí se puede visualizar la imagen. 
 
 
 ### Filtros a aplicar
