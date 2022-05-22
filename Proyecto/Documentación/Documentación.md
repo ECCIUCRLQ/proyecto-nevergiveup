@@ -45,6 +45,13 @@ Los datos son almacenados en little-endian
 | 46, 47, 48, 49 | Tamaño de la tabla de color |
 | 50, 51, 52, 53 | Contador de colores importantes |
 
+### Procesamiento de una imagen en formato BMP
+
+Según el blog Tips para estudiantes de Sistemas Computacionales (2012), para el procesamiento de imágenes en el formato BMP primero recibimos la dirección de memoria de la imagen que ya estará cargada en el sistema operativo. Después es necesario almacenar el archivo en el buffer y para esto hay que asegurarse que el archivo BMP es válido y que contiene la información correspondiente, esto se realiza mediante una lectura del archivo, ya que este consta de un encabezado de 54 bytes que contine toda la información del BMP. Una vez almacenado el archivo en el buffer, este se utiliza para modificar la paleta de colores. Es importante recordar que los colores en un archivo BMP se guardan como BGR y no como RGB. Para cargar la imagen se debe leer lea por línea y se despliega comenzando con la línea inferior hasta la superior. La esquina superior izquierda de la imagen se pinta en la esquina superior de la pantalla. La memoria de video es un arreglo bidimensional de bytes que se pueden manipular individualmente. Cada byte representa un pixel en la pantalla y contiene el color del pixel que se va a pintar en esa posicion, de esta manera al cargar todos los bytes se logra obtener la imagen eseada, en el caso de querer aplicar un filtro
+
+
+
+
 ## Protocolo
 
 Los protocolos son muy utilizados por las personas. En informática al igual que en muchas otras ámbitos un protocolo se puede definir como un conjunto formal de estándares y normas. Según (Imagar, 2021) estos pueden llegar a regir tanto el formato como el control de la interacción entre los distintos dispositivos dentro de una red o sistema de comunicación entre otras. Los protocolos tienen varias funciones algunas de las mencionados por (Imagar, 2021) son: permiten la interoperabilidad, sirve además para regular el control de flujo, sirve para administrar la velocidad de transmisión de los datos entre dos dispositivos, administrar congestiones y también administra la verificación de errores, entre otras funciones.
