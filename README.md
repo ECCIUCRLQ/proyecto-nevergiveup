@@ -4,7 +4,7 @@
 
 Este proyecto diseña un dispositivo periférico a partir de la tecnología Simics. 
 
-Se desarrolla un dispositivo virtualizado, con los componentes fundamentales para que pueda ser utilizado por un usuario. En consecuencia, describe la planificación, diseño y ejecución como partes fundamentales para llevar a cabo un proyecto.
+Se desarrolla un dispositivo virtualizado, el cual mediante diversos componentes y conocimientos de la estructura simics  permite  crear  una simulacion de camara fotografica. Además se presenta un informe detallado del diseño y estructura del proyecto para el analisis y comprensión del usuario.  
 
 ## Especificación
 
