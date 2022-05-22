@@ -47,7 +47,10 @@ Los datos son almacenados en little-endian
 
 ### Procesamiento de una imagen en formato BMP
 
-Según el blog Tips para estudiantes de Sistemas Computacionales (2012), para el procesamiento de imágenes en el formato BMP primero recibimos la dirección de memoria de la imagen que ya estará cargada en el sistema operativo. Después es necesario almacenar el archivo en el buffer y para esto hay que asegurarse que el archivo BMP es válido y que contiene la información correspondiente, esto se realiza mediante una lectura del archivo, ya que este consta de un encabezado de 54 bytes que contine toda la información del BMP. Una vez almacenado el archivo en el buffer, este se utiliza para modificar la paleta de colores. Es importante recordar que los colores en un archivo BMP se guardan como BGR y no como RGB. Para cargar la imagen se debe leer lea por línea y se despliega comenzando con la línea inferior hasta la superior. La esquina superior izquierda de la imagen se pinta en la esquina superior de la pantalla. La memoria de video es un arreglo bidimensional de bytes que se pueden manipular individualmente. Cada byte representa un pixel en la pantalla y contiene el color del pixel que se va a pintar en esa posicion, de esta manera al cargar todos los bytes se logra obtener la imagen eseada, en el caso de querer aplicar un filtro
+Según el blog Tips para estudiantes de Sistemas Computacionales (2012), para el procesamiento de imágenes en el formato BMP,  se recibe la dirección de memoria de la imagen que ya debe estar cargada en el sistema operativo. Después es necesario almacenar el archivo en el buffer,  y para esto hay que asegurarse que el archivo BMP es válido y que contiene la información correspondiente, esto se realiza mediante una lectura del archivo, ya que este consta de un encabezado de 54 bytes que contiene toda la información del BMP. Una vez almacenado el archivo en el buffer, este se utiliza para modificar la paleta de colores. Es importante recordar que los colores en un archivo BMP se guardan como BGR y no como RGB. Para cargar la imagen se hace una lectura línea por línea y se despliega comenzando con la línea inferior hasta la superior. La esquina superior izquierda de la imagen se pinta en la esquina superior de la pantalla. 
+
+En cuanto a La memoria de video, la cual es un tipo de memoria RAM que utiliza el controlador gráfico para poder manejar toda la información visual que le envía la CPU del sistema, y que es un arreglo bidimensional de bytes que se pueden manipular individualmente. Cada byte representa un pixel en la pantalla y contiene el color del pixel que se va a pintar en esa posición, de esta manera, al cargar todos los bytes se logra obtener la imagen deseada. En caso de querer aplicar un filtro, se carga la imagen con diferentes valores por pixel y así obtener diferentes colores aplicados en la misma imagen (filtros). 
+
 
 
 
@@ -110,6 +113,8 @@ El diseño del producto final consta de las sigueintes partes:
 - [Mac, E (2019) ¿Cuál es el significado de BMP?. Technolandia](https://techlandia.com/significado-bmp-hechos_103910/)
 
 - [Tabla: Estándar de una imagen en formato BMP](https://www.youtube.com/watch?v=eRtL6TsLKfU)
+
+- [Tips para estudiantes de Sistemas Computacionales (2012)](https://tipsparaisc.blogspot.com/2012/05/ensamblador-8086-desplegar-una-imagen.html)
 
 
 ## Programadores:
