@@ -6,11 +6,6 @@ Este proyecto diseña un dispositivo periférico a partir de la tecnología Simi
 
 Se desarrolla un dispositivo virtualizado, el cual mediante diversos componentes y conocimientos de la estructura simics  permite  crear  una simulacion de camara fotografica. Además se presenta un informe detallado del diseño y estructura del proyecto para el analisis y comprensión del usuario.  
 
-## Especificación
-
-Este dispositivo se conecta vía PCI-Express, en donde se simula, por medio de Simics, el hardware para capturar, transformar y filtrar fotos o imágenes y enviar el resultado de la imagen filtrada a un entorno virtual que usa Ubuntu como sistema operativo. La imagen de entrada es un archivo bmp (bitmap image). A la imagen se le pueden aplicar varios filtros. Finalmente, el resultado de aplicar el filtro se almacena en el dispositivo junto con otros datos como fecha de la captura, tamaño en bytes, entre otros. Los datos que se almacenan son enviados a una computadora que usa Ubuntu y desde ahí se puede visualizar la imagen. 
-
-
 Para ver documentación pulsar el siguiente [link](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Documentaci%C3%B3n/Documentaci%C3%B3n.md)
 
 ## License
