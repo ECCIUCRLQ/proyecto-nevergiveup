@@ -13,7 +13,7 @@ Este dispositivo se conecta vía PCI-Express, en donde se simula, por medio de S
 
 ### Ejemplo de resultados
 
-![Filtros](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Img/filtros.png)
+![Filtros](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Documentación/Img/Filtros.png)
 
 Descripción: La imagen central es la original y a sus extremos están sus respectivos filtros.
 
@@ -78,7 +78,7 @@ El diseño del producto final consta de las sigueintes partes:
 4. Pruebas de validación que demuestran el cumplimiento de los requisitos mínimos para el funcionamiento del dispositivo
 5. Un protocolo que permite la comunicación entre el dispositivo y el driver o controlador
 
-![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Img/Diagrama.png)
+![Diseño final](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Documentación/Img/DiagramaFinal.png)
 
 ## Lista de temas, conocimientos o habilidades necesarios para lograr el proyecto
 - Entender qué es un driver y cómo funciona
