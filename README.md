@@ -6,7 +6,6 @@ Este proyecto diseña un dispositivo periférico a partir de la tecnología Simi
 
 Se desarrolla un dispositivo virtualizado, el cual mediante diversos componentes y conocimientos de la estructura simics  permite  crear  una simulacion de camara fotografica. Además se presenta un informe detallado del diseño y estructura del proyecto para el analisis y comprensión del usuario.  
 
-Para ver documentación pulsar el siguiente [link](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/blob/main/Proyecto/Documentaci%C3%B3n/Documentaci%C3%B3n.md)
 
 ## Índice
   1. [Especificación](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/wiki/1.-Especificación)
