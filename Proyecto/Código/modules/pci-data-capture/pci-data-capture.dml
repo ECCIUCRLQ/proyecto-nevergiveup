@@ -41,7 +41,7 @@ is pci_device;
 param pci_hotplug = true;
 
 // constant size of buffer
-param BUFFER_SIZE = 1198;
+param BUFFER_SIZE = 20000;
 
 //variable with the file handle
 session FILE * file;
@@ -122,19 +122,53 @@ bank regs is function_mapped_bank {
         //called on write by the processor
         method write(uint64 value) {
             local uint32 index = 0;
+            local uint64 aux = 0;
+            local uint64 aux2 = 0x1;
+            local uint64 aux3 = 0;
+            local uint64 aux4 = 0x1;
             if (value == 0x1) {
                 if(input.val != NULL) {
                     file = fopen(input.val, "r");
+                    local uint8 char_read = ' ';
                     for (index = 0; index < BUFFER_SIZE; index++) {
-                        local uint8 char_read = fgetc(file);
+                        char_read = fgetc(file);         
                         if (index == 0 || index == 1) {
-                            format_type[index].set_val(char_read);
+                            format_type[index].set_val(char_read);                           
                         } else if (index <= 5) {
-                            size_file[index].set_val(char_read);
-                        } else if (index <= 10) {
-                            image_data[index].set_val(char_read);
-                        } else {                            
-                            buffer[index].set_val(char_read);
+                            file_size[index-2].set_val(char_read);
+                        } else if (index <= 9) {
+                            reserved[index-6].set_val(char_read);
+                        } else if (index <= 13) {
+                            image_data[index-10].set_val(char_read);
+                            aux+=char_read*aux2;
+                            aux2=aux2*0x100;                            
+                            log info, 4: "0x%x", aux;                           
+                        } else if (index <= 17) {
+                            header_size[index-14].set_val(char_read);
+                        } else if (index <= 21) {
+                            width[index-18].set_val(char_read);
+                        } else if (index <= 25) {
+                            height[index-22].set_val(char_read);                            
+                        } else if (index == 26) {
+                            for (local uint64 j = index; j < 33;j++) {
+                                char_read = fgetc(file);
+                            }
+                            index = 32;
+                        } else if (index <= 36) {
+                            image_size[index-33].set_val(char_read);                            
+                            aux3+=char_read*aux4;
+                            aux4=aux4*0x100; 
+                            if (index == 36) {
+                                for (local uint64 j = index; j < aux;j++) {
+                                    char_read = fgetc(file);
+                                }
+                                index = aux-1; 
+                            }
+                        } else if (index <= BUFFER_SIZE) {
+                            buffer[index-aux].set_val(char_read); 
+                            if (index==aux3){
+                                index=BUFFER_SIZE;
+                            }                           
                         }
                         log info, 4: "loaded val = 0x%x @ buffer[%d]", char_read, index;
                     }
@@ -145,25 +179,55 @@ bank regs is function_mapped_bank {
     }
     
     // Store the file type
-    register format_type[i < 2] size 1 @ 0x18 {
+    register format_type[i < 2] size 1 @ 0x18 + i {
         is read_only;
         param init_val = 0x0;
     }  
 
+    // Store reserved bits
+    register reserved[i < 4] size 1 @ 0x1a + i {
+        is read_only;
+        param init_val = 0x0;
+    } 
+
     // Store file size
-    register size_file[i < 6] size 1 @ 0x1a {
+    register file_size[i < 4] size 1 @ 0x1e + i {
         is read_only;
         param init_val = 0x0;
     } 
 
     // Stores the start of image data
-    register image_data[i < 10] size 1 @ 0x1e {
+    register image_data[i < 4] size 1 @ 0x22 + i {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // Stores the herder size
+    register header_size[i < 4] size 1 @ 0x26 + i {
+        is read_only;
+        param init_val = 0x0;
+    } 
+
+    // Width of image data
+    register width[i < 4] size 1 @ 0x2a + i {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // height of image data
+    register height[i < 4] size 1 @ 0x2e + i {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // height of image data
+    register image_size[i < 4] size 1 @ 0x32 + i {
         is read_only;
         param init_val = 0x0;
     }
 
     //for communicating initial 8 bytes of the file after command=1 and input attr value is populated
-    register buffer[i < BUFFER_SIZE] size 1 @ 0x22 + i {
+    register buffer[i < BUFFER_SIZE] size 1 @ 0x36 + i {
         is read_only;
         param init_val = 0x0;
     }
