@@ -1,3 +1,4 @@
+$disk0_image = "qsp-driver-support.craff"
 run-command-file "%script%/firststeps.simics"
 load-module pci_capture_comp
 load-module module = pci-data-capture
