@@ -46,6 +46,9 @@ param BUFFER_SIZE = 20000;
 //variable with the file handle
 session FILE * file;
 
+// variable counter
+session int counter = 0;
+
 /*
     simulates input data received by the device
     recieves a path to the file that will be populate in this device registers
@@ -126,6 +129,8 @@ bank regs is function_mapped_bank {
             local uint64 aux2 = 0x1;
             local uint64 aux3 = 0;
             local uint64 aux4 = 0x1;
+            local uint32 aux5 = 0;
+            local uint32 aux6 = 0x1;
             if (value == 0x1) {
                 if(input.val != NULL) {
                     file = fopen(input.val, "r");
@@ -146,9 +151,21 @@ bank regs is function_mapped_bank {
                         } else if (index <= 17) {
                             header_size[index-14].set_val(char_read);
                         } else if (index <= 21) {
-                            width[index-18].set_val(char_read);
-                        } else if (index <= 25) {
-                            height[index-22].set_val(char_read);                            
+                            aux5+=char_read*aux6;
+                            aux6=aux6*0x100;  
+                            if (index == 21)  { 
+                                width[index-21].set_val(aux5);
+                                aux5 = 0;
+                                aux6 = 0x1;
+                            } 
+                        } else if (index <= 25) { 
+                            aux5+=char_read*aux6;
+                            aux6=aux6*0x100; 
+                            if (index == 25) {                                 
+                                height[index-25].set_val(aux5);  
+                                aux5 = 0;
+                                aux6 = 0x1;
+                            }                             
                         } else if (index == 26) {
                             for (local uint64 j = index; j < 33;j++) {
                                 char_read = fgetc(file);
@@ -209,13 +226,13 @@ bank regs is function_mapped_bank {
     } 
 
     // Width of image data
-    register width[i < 4] size 1 @ 0x2a + i {
+    register width[i < 1] size 4 @ 0x2a {
         is read_only;
         param init_val = 0x0;
     }
 
     // height of image data
-    register height[i < 4] size 1 @ 0x2e + i {
+    register height[i < 1] size 4 @ 0x2e {
         is read_only;
         param init_val = 0x0;
     }
@@ -226,8 +243,28 @@ bank regs is function_mapped_bank {
         param init_val = 0x0;
     }
 
+    // access to buffer
+    register access_buffer size 4 @ 0x36 {
+        is read;
+        is write;
+        param init_val = 0x0;
+        method write(uint64 value) {
+            local uint32 value2 = 0;
+            if (value == 0x1) {
+                value = buffer[counter].get_val();
+                counter++;
+                value_buffer[0].set_val(value); 
+            }
+        }
+    }
+
+    register value_buffer[i < 1] size 4 @ 0x3a {
+        is read_only;
+        param init_val = 0x0;
+    }
+
     //for communicating initial 8 bytes of the file after command=1 and input attr value is populated
-    register buffer[i < BUFFER_SIZE] size 1 @ 0x36 + i {
+    register buffer[i < BUFFER_SIZE] size 1 @ 0x3e + i {
         is read_only;
         param init_val = 0x0;
     }
