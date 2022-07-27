@@ -17,17 +17,11 @@ Se desarrolla un dispositivo virtualizado, el cual mediante diversos componentes
   7. [Lista de tareas y programadores](https://github.com/ECCIUCRLQ/proyecto-nevergiveup/wiki/7.-Lista-de-tareas-y-programadores)
 
 ## Código y bibliografía de terceros
-
 - [Imagar Solutions Company. (2021). ¿Qué es el protocolo en informática?](https://www.imagar.com/blog-desarrollo-web/que-es-el-protocolo-en-informatica/)
-
 - [Jithin. Interserver. (2016). Protocolos de red comunes](https://www.interserver.net/tips/kb/common-network-protocols-ports/)
-
 - [Chai, Wesley y Irei, Alissa. TechTarget. (sf). Network Protocol](https://searchnetworking.techtarget.com/definition/protocol)
-
 - [Mac, E (2019) ¿Cuál es el significado de BMP?. Technolandia](https://techlandia.com/significado-bmp-hechos_103910/)
-
 - [Tabla: Estándar de una imagen en formato BMP](https://www.youtube.com/watch?v=eRtL6TsLKfU)
-
 - [Tips para estudiantes de Sistemas Computacionales (2012)](https://tipsparaisc.blogspot.com/2012/05/ensamblador-8086-desplegar-una-imagen.html)
 
 ## License
