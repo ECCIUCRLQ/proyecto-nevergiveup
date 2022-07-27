@@ -314,17 +314,6 @@ bank regs is function_mapped_bank {
             file_size[0].set_val(my_image->file_size);
             header_size[0].set_val(my_image->header_size);
 
-            /*for(local uint32 j = i; j < start_image; j++) {   
-                char_read = fgetc(file); 
-                i++;
-            } 
-
-            for(local uint32 j = 0; j < image_length; j++) {   
-                char_read = fgetc(file);   
-                image_buffer[j] = char_read;  
-                i++;
-            } */
-
             fseek(file, start_image, 0 /*SEEK_SET*/);
             local uint32 blue = 0; 
             local uint32 green = 0;
