@@ -1,0 +1,416 @@
+/*
+  Device PCI data capture
+  This simulated PCI device recieves a file path in the attribute and displays the
+  first 8 bytes of the attribute file as a parameter.
+
+  This Software is part of Simics. The rights to copy, distribute,
+  modify, or otherwise make use of this Software may be licensed only
+  pursuant to the terms of an applicable license agreement.
+  
+  Copyright 2010-2021 Intel Corporation
+
+*/
+
+dml 1.4;
+
+device pci_data_capture;
+import "utility.dml";
+param desc = "PCI data capture";
+param documentation = "This simulated PCI device recieves a file path in the attribute and displays the first 8 bytes of the attribute file";
+
+//this header statement imports header libraries from C directly
+header %{
+#include <stdio.h>
+#include <stdlib.h>
+%}
+
+//extern statements for the usage of this library function calls of the imports defined above
+extern FILE * fopen(const char *, const char *);
+extern int fgetc(FILE *);
+extern int fseek(FILE *, long, int);
+extern int fclose(FILE *);
+extern size_t fwrite(const void *ptr, size_t, size_t, FILE *);
+extern typedef struct { } FILE;
+
+/*
+    imports the basic pci functionality
+    template is applied for the pci_device 
+*/
+import "pci/common.dml";
+is pci_device;
+
+
+param pci_hotplug = true;
+
+// constant size of buffer
+param BUFFER_SIZE = 256;
+
+//variable with the file handle
+session FILE * file;
+
+// global variable counter to read value
+session int counter_read_value = 0;
+
+// global variable chunk
+session int chunk = 0;
+
+// global variable image buffer
+session uint8 *image_buffer;
+
+typedef layout "little-endian" {  
+    uint16 type;
+    uint32 file_size;  
+    uint32 reserved0;  
+    uint32 start_image;  
+    uint32 header_size;  
+    uint32 width;  
+    uint32 height;  
+    uint16 plane_number;  
+    uint16 point_size;  
+    uint32 compression;  
+    uint32 image_size;  
+    uint32 h_resolution;  
+    uint32 v_resolution;  
+    uint32 color_size;  
+    uint32 color_counter; 
+} image_t;
+
+
+/*
+    simulates input data received by the device
+    recieves a path to the file that will be populate in this device registers
+*/
+
+attribute input {
+    param type = "s";
+    session char* val;
+    session int len;
+    //get handler, gets called with called from CLI or the get interface
+    method get() -> (attr_value_t) default {
+        return SIM_make_attr_string(val != NULL ? val : "");
+      
+    }
+
+    //set handler, gets called with called from CLI or the set interface
+    method set(attr_value_t attr) throws default {
+        local const char* attr_str = SIM_attr_string(attr);
+        set_string(attr_str);
+
+    }
+
+    /* 
+        set_string: copies the parmater char * to the internal char structure
+        the old stored value is deleted 
+    */
+    method set_string(const char *ptr) {
+        if (len > 0) {delete val;}
+        len = strlen(ptr);
+        val = new char[len + 1];
+        strcpy(val, ptr);
+    }
+} 
+
+attribute output {
+    param type = "s";
+    session char* val;
+    session int len;
+    //get handler, gets called with called from CLI or the get interface
+    method get() -> (attr_value_t) default {
+        return SIM_make_attr_string(val != NULL ? val : "");
+      
+    }
+
+    //set handler, gets called with called from CLI or the set interface
+    method set(attr_value_t attr) throws default {
+        local const char* attr_str = SIM_attr_string(attr);
+        set_string(attr_str);
+
+    }
+
+    /* 
+        set_string: copies the parmater char * to the internal char structure
+        the old stored value is deleted 
+    */
+    method set_string(const char *ptr) {
+        if (len > 0) {delete val;}
+        len = strlen(ptr);
+        val = new char[len + 1];
+        strcpy(val, ptr);
+    }
+} 
+
+
+
+bank pci_config {
+
+    /* This attribute should contain a list of all BAR registers */
+    param base_address_registers = ["base_address_0"];
+ 
+    register vendor_id { param init_val = 0x104C; } // Texas Instruments
+    register device_id { param init_val = 0xAC10; } // PC Card Controller
+
+    register base_address_0 @ 0x10 is (memory_base_address_32) {
+        param size_bits = 18;
+        param map_func = 1;
+    }
+    register base_address_1 @ 0x14 is (no_base_address_32);
+    register base_address_2 @ 0x18 is (no_base_address_32);
+    register base_address_3 @ 0x1C is (no_base_address_32);
+    register base_address_4 @ 0x20 is (no_base_address_32);
+    register base_address_5 @ 0x24 is (no_base_address_32);
+}
+
+bank regs is function_mapped_bank {
+    /* Each register bank need to have a unique function number,
+       which should match with the map_func param in one BAR */
+    param function = 1;
+
+    register test_register size 4 @ 0x0 {
+        param init_val = 0x0;
+    }
+
+    register buf_size size 4 @ 0x4 {
+        param init_val = BUFFER_SIZE;
+    }
+    
+    //when command register is written with a 1 then the device outputs current data 
+    //stored in the input attribute
+    register cmd size 4 @ 0x14 {
+        is write;
+        param init_val = 0x0;
+        
+        //called on write by the processor
+        method write(uint64 value) {
+            if (value == 0x1) {
+                read_image();
+            } else if (value == 0x2) {
+                counter_read_value = 0;
+                chunk = 0;
+            } else if (value == 0x3) {
+                write_image();
+            }
+        }
+    }
+    
+    // Store the file type
+    register format_type[i < 1] size 2 @ 0x18 {
+        is read_only;
+        param init_val = 0x0;
+    }  
+
+    // Store reserved bits
+    register reserved[i < 1] size 4 @ 0x1a {
+        is read_only;
+        param init_val = 0x0;
+    } 
+
+    // Store file size
+    register file_size[i < 1] size 4 @ 0x1e {
+        is read_only;
+        param init_val = 0x0;
+    } 
+
+    // Stores the start of image data
+    register image_data[i < 1] size 4 @ 0x22 {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // Stores the header size
+    register header_size[i < 1] size 4 @ 0x26 {
+        is read_only;
+        param init_val = 0x0;
+    } 
+
+    // Width of image data
+    register width[i < 1] size 4 @ 0x2a {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // height of image data
+    register height[i < 1] size 4 @ 0x2e {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // image size
+    register image_size[i < 1] size 4 @ 0x32  {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    // access to buffer
+    register access_buffer size 4 @ 0x36 {
+        is read;
+        is write;
+        param init_val = 0x0;
+        method write(uint64 value) {            
+            if (value == 0x1) {
+                value = buffer[counter_read_value].get_val();
+                counter_read_value++;
+                value_buffer[0].set_val(value); 
+                if (counter_read_value == BUFFER_SIZE) {
+                    fill_buffer();
+                    counter_read_value = 0;           
+                }
+            } 
+        }
+    }
+
+    register value_buffer[i < 1] size 4 @ 0x3a {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    register access_value_buffer size 4 @ 0x3e {
+        is read;
+        is write;
+        param init_val = 0x0;
+        method write(uint64 new_value) {   
+            local uint32 value[2] = {0x0000,0x0000};
+            if (counter_read_value == 0) {
+                value[0] =  (0x0000ffff & new_value);   
+                image_buffer[chunk] = value[0]; 
+                chunk++;
+                if (chunk == image_size[0].get_val()) {
+                    chunk = 0;
+                }
+                counter_read_value++;
+            } else {
+                counter_read_value = 0;
+            }
+        }
+    }
+
+    //for communicating initial 8 bytes of the file after command=1 and input attr value is populated
+    register buffer[i < BUFFER_SIZE] size 1 @ 0x42 + i {
+        is read_only;
+        param init_val = 0x0;
+    }
+
+    method read_image() {  
+        if(input.val != NULL) {
+            file = fopen(input.val, "r");
+            local uint8 char_read = ' ';
+            local uint8 *header_buffer = new uint8[sizeoftype(image_t)];  
+            local uint32 i = 0;  
+            for (local uint32 j = 0; j < sizeoftype(image_t); j++) { 
+                char_read = fgetc(file);   
+                header_buffer[i] = char_read;  
+                i++;
+            }   
+
+            local image_t *my_image = cast(header_buffer, image_t*); 
+            local uint32 ancho = my_image->width;  
+            width[0].set_val(ancho); 
+            local uint32 altura = my_image->height;  
+            height[0].set_val(altura); 
+            local uint32 image_length = my_image->image_size; // (ancho * altura) * my_image->point_size; // image_size < (file_size - header_size)   
+            image_size[0].set_val(image_length);
+            local uint32 start_image = my_image->start_image; 
+            image_buffer = new uint8[image_length];  
+            format_type[0].set_val(my_image->type);
+            file_size[0].set_val(my_image->file_size);
+            header_size[0].set_val(my_image->header_size);
+
+            /*for(local uint32 j = i; j < start_image; j++) {   
+                char_read = fgetc(file); 
+                i++;
+            } 
+
+            for(local uint32 j = 0; j < image_length; j++) {   
+                char_read = fgetc(file);   
+                image_buffer[j] = char_read;  
+                i++;
+            } */
+
+            fseek(file, start_image, 0 /*SEEK_SET*/);
+            local uint32 blue = 0; 
+            local uint32 green = 0;
+            local uint32 red = 0;
+            local uint32 salto = ancho%4;
+            /* Leemos los datos de imagen, tantos bytes como imgsize */
+            for (local uint32 i = 0; i < altura; i++) {
+                for (local uint32 j = 0; j < ancho; j++) {
+                    blue = fgetc(file);;
+                    image_buffer[3*((ancho)*i+j)] = blue;  
+                    green = fgetc(file);
+                    image_buffer[3*((ancho)*i+j)+1] = green;  
+                    red = fgetc(file);
+                    image_buffer[3*((ancho)*i+j)+2] = red;
+                }
+                // Las filas se rellenan para que siempre sean múltiplos de 4 bytes
+                // esta línea salta el relleno al final de cada i.
+                fseek(file,salto, 1 /*SEEK_CUR*/);
+            }
+            fill_buffer();      
+            fclose(file);
+        }
+    }
+
+    method write_image() {  
+        if (output.val != NULL && input.val != NULL) {
+            file = fopen(input.val, "r");
+            local uint8 char_read = ' ';
+            local uint8 *header_buffer = new uint8[sizeoftype(image_t)];  
+            local uint32 i = 0;  
+            for (local uint32 j = 0; j < sizeoftype(image_t); j++) { 
+                char_read = fgetc(file);   
+                header_buffer[i] = char_read;  
+                i++;
+            }  
+            local image_t *my_image = cast(header_buffer, image_t*); 
+            fclose(file);
+
+            file = fopen(output.val, "w+");
+            fwrite(&my_image->type, sizeoftype(uint16), 1, file);
+            fwrite(&my_image->file_size, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->reserved0, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->start_image, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->header_size, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->width, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->height, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->plane_number, sizeoftype(uint16), 1, file);
+            fwrite(&my_image->point_size, sizeoftype(uint16), 1, file);
+            fwrite(&my_image->compression, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->image_size, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->h_resolution, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->v_resolution, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->color_size, sizeoftype(uint32), 1, file);
+            fwrite(&my_image->color_counter, sizeoftype(uint32), 1, file);
+            fseek(file, my_image->start_image, 0 /*SEEK_SET*/);
+            
+            local uint32 blue = 0; 
+            local uint32 green = 0;
+            local uint32 red = 0;
+            for (local uint32 i = 0; i < my_image->height; i++) {
+                for (local uint32 j = 0; j < my_image->width; j++) {
+                    blue = image_buffer[3*((my_image->width)*i+j)];
+                    fwrite(&blue, sizeoftype(char), 1, file);
+                    green = image_buffer[3*((my_image->width)*i+j)+1];
+                    fwrite(&green, sizeoftype(char), 1, file);
+                    red = image_buffer[3*((my_image->width)*i+j)+2];
+                    fwrite(&red, sizeoftype(char), 1, file);
+                }
+                local uint32 value = 0;
+                for (local uint32 i = 0; i < my_image->width%4; i++) {
+                    fwrite(&value, sizeoftype(char), 1, file);
+                }
+            }
+            fclose(file);
+        }
+    }
+
+    method fill_buffer() { 
+        for (local uint32 i = 0; i < BUFFER_SIZE; i++) {  
+            if  (chunk == image_size[0].get_val()){
+                chunk = 0;
+                break;
+            } else {
+                buffer[i].set_val(image_buffer[chunk]);   
+                chunk++;  
+            }
+        }   
+    }
+}
